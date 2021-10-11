@@ -1,0 +1,172 @@
+= Instalación
+
+== Directorio de Datos
+
+El IPT almacena la configuración, los recursos, los usuarios y las bitácoras en su directorio de datos. Esto se puede configurar durante la instalación o la primera vez que se ejecuta el IPT.
+
+La ubicación típica en Linux es `/var/lib/ipt` (instalado desde los paquetes) o`/srv/ipt` (ejecutando en Tomcat). En Windows, `C:\ipt-data` es apropiado. El IPT debe tener permiso de escritura en la ubicación elegida.
+
+[CAUTION]
+====
+No seleccione un directorio de datos que sea vulnerable a cambios o eliminación involuntarios. No utilice `/tmp`, por ejemplo, en sistemas donde esta carpeta se puede vaciar al reiniciar el sistema.
+
+*Se debe realizar una copia de seguridad del directorio de datos con regularidad de acuerdo con un plan de recuperación de desastres adecuado.*
+
+La pérdida del contenido del directorio de datos dará como resultado la pérdida de recursos, usuarios y otra información de configuración y personalizaciones para la instalación de IPT.
+====
+
+NOTE: Si tiene un directorio de datos de un IPT que se estaba ejecutando anteriormente de la misma versión y desea usar esa configuración anterior (incluidos los usuarios y los recursos), puede ingresar la ruta absoluta de ese directorio de datos a continuación, o durante el primer paso de la configuración del IPT .
+
+== Método de instalación
+
+Hay varias formas de instalar el IPT.
+
+* Los usuarios de * Red Hat *, * CentOS *, * Debian *, * Ubuntu * o similar pueden instalar directamente desde <<Instalación desde paquetes Linux, paquetes Linux >>. Este es el método más simple para la instalación típica de un solo IPT en un solo servidor, y también es el método más fácil de mantener actualizado.
+* Otros usuarios de * Linux *, todos los usuarios de * MS Windows * y aquellos que deseen ejecutar múltiples IPT en el mismo servidor deberían consultar la sección sobre << Instalación dentro de un contenedor de servlets >>.
+* * Docker * Las imágenes también están disponibles, puede consultarse en<<Installation using Docker>>
+
+== Instalación desde paquetes de Linux
+
+=== RPM (Red Hat, CentOS etc)
+
+To install the IPT onto Red Hat 7, CentOS 7 or similar, first add the GBIF package repository and install the IPT package:
+
+[source, shell]
+----
+yum-config-manager --add-repo https://packages.gbif.org/gbif.repo
+yum install ipt
+----
+
+Opcionalmente, edite `/etc/sysconfig/ipt` para cambiar el puerto y el directorio de datos predeterminados. Finalmente:
+
+[source, shell]
+----
+systemctl enable ipt
+systemctl start ipt
+----
+
+El IPT se inicia en el puerto 8080 (a menos que se haya cambiado anteriormente). Los registros iniciales son visibles con `journalctl -u ipt`, pero luego se registran en el directorio de datos. Asegúrese de * hacer una copia de seguridad del directorio de datos IPT *, que es `/var/lib/ipt` por defecto.
+
+La instalación exitosa de los paquetes IPT hará que el IPT sea accesible a través de un navegador web en una URL determinada por el nombre y el puerto del servidor (por ejemplo, http://server.example.org:8080). Si la instalación fue exitosa, la página de configuración inicial de IPT aparecerá en el navegador web al solicitar la URL de IPT.
+
+Luego continúe con <<Abrir el IPT a internet>>.
+
+=== APT (Debian, Ubuntu etc)
+
+Por favor consulte https://github.com/gbif/ipt/pull/1470["Debian packaging "] en GitHub. Esta es una contribución de GBIF España, y aún no está soportada por los desarrolladores de IPT.
+
+Luego continúe con <<Abrir el IPT a internet>>.
+
+== Instalación dentro de un contenedor de servlets
+
+La instalación de IPT dentro de un contenedor de servlets consiste en implementar el archivo IPT `.war` en un contenedor de servlets como Tomcat.
+
+Esta sección explica cómo instalar diferentes tipos de contenedores de servlets en su servidor y cómo implementar el IPT dentro de ellos.
+
+No es necesario usar un proxy inverso, pero en caso de que lo haga, la siguiente sección explica cómo configurar la declaración de un host virtual en Apache HTTPD para el IPT.
+
+Los contenedores de servlets más comunes que se utilizan para implementar IPT son Tomcat, Jetty y Wildfly8 (JBoss).
+
+=== Tomcat
+
+El IPT ha sido probado y funciona bien con Tomcat 7, 8 o 9. La documentación de Apache Tomcat se puede encontrar en http://tomcat.apache.org/. 
+
+. Instalación de Tomcat: consulte nuestra guía para xref:tomcat-installation-linux.adoc[instalación de Tomcat en Linux] o xref:tomcat-installation-windows.adoc[Windows], o consulte la documentación de Tomcat.
+
+. Configure el directorio de datos IPT dentro de Tomcat
++
+--
+TIP: Este paso es opcional, pero se recomienda para mejorar la seguridad y simplificar el procedimiento de actualización.
+
+Localice el directorio de configuración de Tomcat (normalmente `/etc/tomcat` o` /etc/tomcat9` en Linux, `C: \ Archivos de programa\Apache Software Foundation\Tomcat XY\conf` en Windows) y cree un archivo`Catalina/localhost/ipt.xml` (descrito en https://tomcat.apache.org/tomcat-8.5-doc/config/context.html#Defining_a_context[Documentación de Tomcat "Definición de un contexto"]). Por ejemplo, en una instalación típica de CentOS Linux, el archivo sería `/etc/tomcat/conf/Catalina/localhost/ipt.xml`.
+
+Defina el parámetro `IPT_DATA_DIR` dentro del archivo - copie y pegue el texto aquí, ya que las mayúsculas en las letras son importantes:
+
+[source, xml]
+----
+<Context>
+  <Parameter name="IPT_DATA_DIR" value="/srv/ipt"/>
+</Context>
+----
+
+[NOTE]
+====
+Si no se realiza este paso, el IPT solicitará un directorio de datos cuando se ejecute por primera vez. La ubicación se almacenará en un archivo llamado `datadir.location` el directorio de instalación base del IPT, p. Ej. `/var/lib/tomcat/webapps/ipt/WEB-INF/datadir.location`.
+
+Si es necesario cambiar la ubicación del directorio de datos, elimine/edite este archivo y reinicie Tomcat.
+====
+--
+
+. Despliegue de IPT
++
+--
+Descargue la última versión WAR de IPT desde xref:releases.adoc[página de versiones] y cámbiele el nombre a `ipt.war` (o similar, que coincida con` ipt.xml` del paso 2 si se usa). Copie el archivo `ipt.war` en la carpeta de aplicaciones web de Tomcat y luego inicie Tomcat si aún no se está ejecutando. A continuación, puede invocar el IPT en un navegador web que se ejecute en el mismo servidor utilizando la siguiente URL: http://localhost:8080/ipt
+
+Si la instalación no se inicia, consulte el archivo de registro `catalina.out` y consulte xref:faq.adoc[FAQ] para obtener ayuda.
+--
+
+La instalación exitosa de IPT dentro de un contenedor de servlet hará que el IPT sea accesible a través de un navegador web en una URL determinada por el nombre y el puerto del servidor seguido de /ipt (por ejemplo, http://server.example.org:8080/ipt). Si la instalación fue exitosa, la página de configuración inicial de IPT aparecerá en el navegador web al solicitar la URL de IPT.
+
+Luego continúe con <<Abrir el IPT a internet>>.
+
+El siguiente video también explica cómo instalar IPT usando Tomcat, asumiendo que Tomcat ya se ha instalado.
+
+[.responsive-video]
+video::116142276[vimeo, width=100%]
+
+[TIP]
+====
+Se pueden instalar varios IPT en el mismo servidor con una pequeña variación de este proceso. En lugar de (o además de) usar `ipt.xml` e` ipt.war`, use nombres diferentes y cambie los archivos en consecuencia: en https://cloud.gbif.org/[cloud.gbif.org] tenemos `africa.xml` y` africa.war`, `bid.xml` y` bid.war`, etc.
+====
+
+=== Jetty
+
+_Como una guía muy aproximada, en CentOS, para ejecutar una única instancia del IPT: _
+
+[source, shell]
+----
+yum install jetty-runner
+java -jar /usr/share/java/jetty/jetty-runner.jar --port 8080 ipt.war
+----
+
+Luego continúe con <<Abrir el IPT a internet>>.
+
+== Instalación usando Docker
+
+GBIF mantiene una imagen de Docker, publicada en https://hub.docker.com/r/gbif/ipt/[Docker Hub]. La imagen se basa en la imagen estable Tomcat 8.5/OpenJDK 8/Debian de la comunidad Docker. Tomcat está publicado en el puerto 8080 y el IPT se ejecuta como la aplicación principal.
+
+Para ejecutar un nuevo contenedor de Docker, inicie Tomcat y exponga el puerto de Tomcat ejecutado así:
+
+[source, shell]
+----
+docker run --detach --volume /full/path/to/data-directory:/srv/ipt --publish 8080:8080 gbif/ipt
+----
+
+Luego puede acceder a la pantalla de configuración del IPT en el puerto 8080.
+
+Si necesita reemplazar el directorio de datos, esto se puede hacer con `-e IPT_DATA_DIR = /ruta/a/contenedor`.
+
+Si necesita encontrar la dirección IP "predeterminada" de su máquina Docker , use `docker-machine ip default`.
+
+Ejecute una versión específica desde https://hub.docker.com/r/gbif/ipt/tags[las disponibles] usando `gbif/ipt:version` en lugar de`gbif/ipt`.
+
+== Abrir el IPT a internet
+
+Probablemente necesitará trabajar con su sistema o administrador de red para que el IPT esté disponible en Internet.
+
+Necesitará un nombre DNS para el servidor ("` ipt.example.org` ") y permitir el acceso en el firewall.
+
+Mucha gente usa Apache HTTPD como proxy inverso, a menudo para proporcionar acceso HTTPS o para permitir compartir otros sitios web en el mismo servidor.
+
+La configuración utilizada por `ipt.gbif.org` se muestra aquí como ejemplo. Utiliza Apache HTTPD, con el módulo `mod_proxy` instalado. Las rutas https://ipt.gbif.org/media/[`/media`] y https://ipt.gbif.org/icons/[`/icons`] están excluidas del paso al IPT, para permitir alojar archivos de imágenes estáticas (como imágenes de los registros de colecta u observación) en el mismo servidor. Las solicitudes a http://ipt.gbif.org/ se redirigen al sitio seguro https://ipt.gbif.org/.
+
+[source, apache]
+----
+include::partial$apache-configuration-example.conf[]
+----
+
+=== TLS certificate configuration
+
+For production deployments of the IPT we recommend using a TLS certificate, so information such as logins are secured when accessing the IPT. The procedure to set this up sometimes depends on your institution's policies, but the free https://letsencrypt.org/[LetsEncrypt] service is a good choice. They https://certbot.eff.org/instructions[provide instructions] for adding a certificate to Apache, Nginx and many other webservers running on Linux or Windows.
+
+For a new deployment, it is best to set up the webserver with TLS first, then install and set up the IPT. Adding a certificate to a configured IPT requires changing the public URL. See the note on xref:administration.adoc#public-url[updating the public URL] in the administration section.

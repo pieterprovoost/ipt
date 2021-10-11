@@ -1,0 +1,96 @@
+= Cómo traducir
+
+Tanto la interfaz como el manual de usuario del IPT se benefician de la internacionalización. La internacionalización es un esfuerzo de la comunidad, y todos son bienvenidos a unirse.
+
+La traducción utiliza una herramienta de traducción en línea llamada https://crowdin.com/project/gbif-ipt[Crowdin]. Para unirse, inicie sesión en https://crowdin.com/project/gbif-ipt[Crowdin], seleccione el idioma que desea traducir y haga clic en el botón "Join". Un editor de traducciones se encargará de tu solicitud y te añadirá al equipo de traducción. A continuación, podrá empezar a traducir. La mayoría de la gente encuentra Crowdin fácil e intuitivo de usar. Para obtener ayuda sobre el uso de Crowdin, siempre puede consultar su https://support.crowdin.com5/crowdin-intro/[Introducción a Crowdin].
+
+En el proyecto Crowdin del IPT, el archivo `Glosario` no forma parte ni de la interfaz de usuario ni del manual de usuario, pero se utiliza para comprobar la coherencia de los términos traducidos. Los demás archivos pertenecen a la interfaz de usuario o al manual de usuario.
+
+== Traduciendo la interfaz de usuario
+
+Translations for the user interface are contained in the file `ApplicationResources_en.properties`. You are welcome to ask mailto:helpdesk@gbif.org[the helpdesk] for an account on https://ipt.gbif-uat.org/[GBIF's development IPT], where new translations will be applied.
+
+image::ipt2/v22/Crowdin-Join.png[]
+
+=== Idiomas actuales
+
+* Francés
+* Japonés
+* Portugués
+* Ruso
+* Español
+* Chino tradicional
+* Persa (en curso)
+
+Si desea traducir la interfaz de usuario a otro idioma, envíe un correo electrónico a helpdesk@gbif.org.
+
+== Traducir el manual de usuario
+
+Las traducciones del manual de usuario están en la carpeta de Crowdin `docs/translations`. El manual de usuario está escrito en https://docs.asciidoctor.org/asciidoc/latest/[Asciidoctor], y es necesaria cierta sintaxis en las traducciones - por ejemplo, `+++*negrita*, _cursiva_ o `texto monoespaciado` +++`.
+
+Hay que prestar especial atención a que las referencias cruzadas (enlaces entre páginas y/o secciones dentro de las páginas) funcionen en las versiones traducidas.
+
+New translations added using Crowdin should appear in the https://ipt.gbif-uat.org/manual/[UAT version of this manual] around 15-60 minutes later.
+
+=== Hipervínculos simples
+
+Al traducirlos, es conveniente enlazar con una versión traducida de la página si el contenido es equivalente. Traduzca de la siguiente manera:
+
+[source, asciidoctor]
+----
+https://www.gbif.org/the-gbif-network[GBIF's diverse Participants]
+
+https://www.gbif.org/es/the-gbif-network[los diversos Aliados de GBIF]
+----
+
+=== Referencias cruzadas en la misma página
+
+Se trata de enlaces a lugares dentro de una página, y suelen hacerse con la sintaxis de referencia cruzada: `\<Titular de destino>>, y a veces con la forma `\<Titular de destino,texto mostrado>> cuando el texto mostrado no debe ser el mismo que el del título al que apunta el enlace.
+
+Por lo tanto, una traducción cruzada es así:
+
+[source, asciidoctor]
+----
+click on the button labelled "Add" to open the <<Data Source selection page>>.
+
+clic en el botón "Agregar" para abrir la <<Página de selección del Conjunto de Datos>>.
+----
+
+=== Referencias cruzadas de diferentes páginas
+
+The simplest links to different pages are to the top of the linked page. These have the form `\xref:filename.adoc[display text]`. Only the display text should be translated, the file name does not change:
+
+[source, asciidoc]
+----
+refer to the xref:doi-workflow.adoc[DOI Workflows] page
+
+consulte la página de xref:doi-workflow.adoc[flujo de trabajo de los DOIs].
+----
+
+More complicated are links to a specific section within another page. These must use the link target, which is generated automatically on each heading: spaces in the heading text are replaced with hyphens (`-`) and the result is converted to lower case. In a web browser, they are shown in the URL bar following a `#`, in the "Contents" menu, or with the "§" symbol next to a heading.
+
+The crossreference is then written as `\xref:filename.adoc#link-target[display text]`, for example `\xref:manage-resources.adoc#resource-managers[read about resource managers]` shows as xref:manage-resources.adoc#resource-managers[read about resource managers].
+
+An English heading `Source Data` has the link target `source-data`. The Spanish translation of the heading, `Conjunto de datos`, has the target `conjunto-de-datos`.
+
+[source, asciidoc]
+----
+Files can be uploaded … when xref:manage-resources.adoc#source-data[adding new source data files].
+
+La carga de archivos al se puede … cuando se xref:manage-resources.adoc#conjunto-de-datos[agregan nuevos archivos de conjuntos de datos].
+----
+
+=== Images and downloads
+
+Some screenshot images can be translated, and others (without any English text) can be the same across all languages. The default is for the same image to be used in all languages. A different image must be uploaded in https://github.com/gbif/ipt[GitHub]. Create an image with the same filename and path, except with `en` changed to the target language.
+
+For example, the default (English) image shown on the xref:home.adoc[home menu page] is stored in GitHub at https://github.com/gbif/ipt/blob/master/docs/en/modules/ROOT/assets/images/ipt2/home/IPTHome.png[`docs/en/modules/ROOT/assets/images/ipt2/home/IPTHome.png`], and its Spanish translation is at https://github.com/gbif/ipt/blob/master/docs/es/modules/ROOT/assets/images/ipt2/home/IPTHome.png[`docs/es/modules/ROOT/assets/images/ipt2/home/IPTHome.png`].
+
+The syntax to include this image in the manual, `image::ipt2/home/IPTHome.png[]`, does not require translation.
+
+=== Idiomas
+
+* Español (parcial)
+* Chino tradicional (iniciado)
+
+If you want to translate the user manual into another language, please email helpdesk@gbif.org. It is not necessary to translate the entire manual – untranslated sections will be shown in English.

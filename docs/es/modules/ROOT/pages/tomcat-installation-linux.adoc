@@ -1,0 +1,11 @@
+= Instalación de Tomcat en Linux
+
+Tomcat es generalmente instalado usando los paquetes de la distribución.
+
+Por ejemplo, en sistemas CentOS o Red Hat se instala con `yum install tomcat`.
+
+O en sistemas Debian o Ubuntu de instala con `apt install tomcat9`.
+
+Puede configurar Tomcat para que se inicie automáticamente con `systemctl enable tomcat` o algo similar.
+
+Pareciera ser que la mayoría de los usuarios de Linux no requieren asesoría adicional; si la requiere por favor pregunte en xref:resources.adoc#ipt-mailing-list[mailing list].
