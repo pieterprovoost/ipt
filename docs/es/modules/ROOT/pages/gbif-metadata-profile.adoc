@@ -1,0 +1,363 @@
+= Perfil de metadatos de GBIF - Guía práctica
+
+Versión 2.1.
+
+image::figures/cover_art_adiatum.png[]
+
+== Document Control
+
+|===
+| Versión | Descripción | Fecha de lanzamiento | Autor (es)
+
+| http://links.gbif.org/gbif_metadata_profile_how-to_en_v1[1.0] | Comprobación de la coherencia en los documentos relevantes, enlaces actualizados a los sitios de producción, texto e imágenes actualizados para reflejar las funcionalidades actuales. | 1 de marzo de 2011 | KB, BK, MR
+| https://github.com/gbif/ipt/wiki/GMPHowToGuide[2.0] | Transferido a wiki, ediciones importantes | 19 de junio de 2017 | Kyle Braak
+| xref: gbif-metadata-profile.adoc [2.1] | Transferido a la documentación de AsciiDoctor | 25 de mayo de 2021 | Matthew Blissett
+|===
+
+== Citación sugerida
+
+> GBIF (2011). Perfil de metadatos de GBIF - Guía práctica, (contribución de Ó Tuama, Éamonn, Braak, K. Remsen, D.), Copenhague: Secretaría de GBIF ISBN: 87-92020-24-0, accesible en línea en: https: // ipt .gbif.org / manual / es / ipt / {página-versión} / gbif-metadata-profile
+
+_Portada Crédito de arte: John Giez, esporofito de helecho Cabello de doncella, Adiatum sp._
+
+== Introducción
+
+Es necesario documentar la procedencia y alcance de los conjuntos de datos para publicar datos a través de la red de GBIF. La documentación de los conjuntos de datos es conocida como "metadatos de los recursos" que permite a los usuarios evaluar la aptitud para el uso de un conjunto de datos.
+
+Hay varias maneras de escribir un documento de metadatos conforme al Perfil de Metadatos de GBIF (GMP). Esta guía práctica recorrerá las formas más comunes, como el uso del editor de metadatos del kit de herramientas de publicación integrado de GBIF (IPT), la plantilla de los metadatos de los recursos de GBIF (pendiente), o la generación manual de un documento de metadatos. La guía también sirve como guía de referencia para el propio Perfil de Metadatos de GBIF.
+
+Si los metadatos que describen a un conjunto de datos se publican usando archivos Darwin Core (DwC-A), el archivo de metadatos se incluirá en el archivo DwC-A que lo agrupa junto con los datos (según los términos Darwin Core) que describe. Para obtener ayuda de cómo crear un archivo DwC-A completo consulte xref:dwca-guide.adoc[Darwin Core Archive: How-To Guide].
+
+Una vez que el documento de metadatos ha sido escrito y validado, está listo para ser publicado.
+
+En última instancia, el objetivo al publicar los metadatos es que el recurso de datos descrito en ellos pueda ser completamente documentado y registrado en el Registro de GBIF. Al hacerlo, el recurso de datos se vuelve reconocible a nivel mundial.
+
+== Soluciones de publicación de metadatos
+
+Si los datos de eventos de muestreo, datos de presencia o ausencia de especies o los datos de la lista de verificación se publican usando la IPT, hay una funcionalidad integrada de creación de metadatos que se puede usar para escribir un documento de metadatos adjunto que cumpla con el PMG (Perfil de Metadatos de GBIF). Puede ser conveniente utilizar esta herramienta para crear metadatos incluso si no se publican datos, especialmente si es necesario crear y administrar varios documentos de metadatos. Por otro lado, si solo se necesitan unos cuantos documentos de metadatos, podría ser más fácil generarlos manualmente, por ejemplo modificando un documento de muestra. A continuación se describe cada una de esas metodologías.
+
+=== Publicación de metadatos usando la IPT
+
+La IPT contiene un editor de metadatos incorporado que permite completar fácilmente los metadatos de los recursos, validarlos y producir un archivo EML que es siempre un XML válido. Se recomienda a los usuarios que reutilicen un xref:data-hosting-centres.adoc[IPT data hosting centre] en lugar de instalar y dar mantenimiento a su propia instalación.
+
+En total, la IPT tiene 12 formularios de metadatos diferentes que organizan lógicamente el ingreso de metadatos:
+
+1.  Metadatos Básicos
+2.  Cobertura Geográfica
+3.  Cobertura Taxonómica
+4.  Cobertura Temporal
+5.  Otras palabras clave
+6.  Partes Asociadas
+7.  Datos del Proyecto
+8.  Métodos de Muestreo
+9.  Referencias
+10. Datos de la Colección
+11. Datos físicos
+12. Metadatos Adicionales
+
+El xref:manage-resources.adoc#metadata[Manual de usuario del IPT] aborda cada formulario y sus respectivos campos con cierta profundidad. El formulario proporciona ayuda al usuario para comprender el significado de cada uno de los elementos (Figura 1).
+
+.Captura de pantalla de un cuadro de diálogo de ayuda para el término "Identificador de la persona
+image::figures/ipt_help_dialog.png[]
+
+Para garantizar que se ingresen los datos adecuados, los campos se validan y se muestran mensajes informativos al usuario para ayudarlo a completar los formularios (Figura 2).
+
+.Captura de pantalla del mensaje de validación de campo que se muestra cuando se envía un campo de correo electrónico con una dirección de correo electrónico irregular.
+image::figures/ipt_field_validation.png[]
+
+Para mayor referencia, a continuación se puede encontrar una descripción de cada elemento en el perfil de metadatos de GBIF acompañado de un ejemplo.
+
+El IPT publica el documento de metadatos y se asegura de que esté validado con el perfil de metadatos de GBIF para que el usuario no tenga que preocuparse por la validación.
+
+Si en algún momento se modifican los metadatos, el usuario solo tiene que actualizar el documento y hacer clic en el botón “Publicar” en la página Administrar recurso para publicar una nueva versión del documento (recurso) (Figura 3).
+
+.Captura de pantalla de la sección Versiones Publicadas de la página Administrar recursos del IPT.
+image::figures/ipt_published_versions.png[]
+
+En cualquier momento, el administrador de recursos puede optar por hacer que el recurso esté disponible públicamente en Internet y, posteriormente, incluso registrarlo en GBIF para que sea encontrado a nivel mundial.
+
+=== Publicar metadatos usando la plantilla de metadatos GBIF
+
+La plantilla de metadatos de GBIF es similar a una plantilla de manuscrito que facilita la creación de metadatos de recursos. Una vez que se hayan ingresado los datos en la plantilla, un autor de metadatos deberá ingresarlos en el IPT a través del editor de metadatos. Todos los campos obligatorios estarán claramente indicados. El editor de metadatos de IPT asegura que se hayan completado todos los campos obligatorios y que cualquier campo que utilice vocabularios controlados se ingrese correctamente, p. Ej. el campo del país. El IPT también garantiza que el documento de metadatos generado sea XML válido y se valida con el perfil de metadatos de GBIF. En última instancia, este proceso de dos pasos (1. plantilla de metadatos → 2. editor de metadatos IPT) se puede utilizar para generar un documento de metadatos de recursos válido.
+
+Cuando haya dudas sobre lo que significa un campo, consulte esta guía para buscar la descripción de su elemento correspondiente acompañado de un ejemplo.
+
+=== Publicar metadatos manualmente
+
+A continuación se muestra un conjunto simple de instrucciones para usuarios que no son IPT y desean generar su propio archivo XML EML personalizado que cumpla con la última versión del perfil de metadatos de GBIF: * 1.1 *. Consulte la siguiente lista para asegurarse de que esté completada correctamente:
+
+==== Instrucciones
+
+1. Utilice la ubicación del esquema para la versión 1.1 del perfil de metadatos de GBIF en el elemento raíz `<eml: eml>`: `<eml:eml ... xsi:schemaLocation="eml://ecoinformatics.org/eml-2.1.1 \http://rs.gbif.org/schema/eml-gbif-profile/1.1/eml.xsd"...>`.
+2.  Establezca el atributo `packageId` dentro del elemento raíz`<eml: eml>`. Recuerde, el `packageId` debe ser cualquier ID único global fijado para ese documento. Siempre que el documento cambie, se le debe asignar un nuevo packageId. Por ejemplo: `packageId = '619a4b95-1a82-4006-be6a-7dbe3c9b33c5/eml-1.xml'` para la primera versión del documento,` packageId ='619a4b95-1a82-4006-be6a-7dbe3c9b33c5/eml-2.xml'` para la segunda versión, y así sucesivamente.
+3. Complete todos los elementos de metadatos obligatorios especificados por el esquema, además de los elementos de metadatos adicionales que desee. Cuando actualice un archivo EML existente utilizando una versión anterior del perfil de metadatos de GBIF, consulte la sección siguiente para obtener una lista de las novedades de esta versión.
+4. Asegúrese de que el archivo EML sea XML válido. Para obtener ayuda, consulte << Validación de metadatos, esta sección >>.
+
+== Validación de metadatos
+
+Es fundamental que el documento de metadatos XML sea válido, tanto como documento XML como para su validación con el esquema GML. Hay varias opciones para hacer esto. Por medio de https://www.oxygenxml.com/[Oxygen XML Editor] es una excelente herramienta con un validador incorporado que puede utilizar para hacer esto. Los programadores de Java también podrían hacer esto, por ejemplo, utilizando https://github.com/gbif/registry/blob/master/registry-metadata/src/main/java/org/gbif/registry/metadata/EmlValidator.java[EmlValidator .java] del proyecto de metadatos de registro de GBIF.
+
+== ¿Qué cambió en la versión 1.1 de GMP desde la 1.0.2?
+
+1. *Soporte para una licencia legible por una computadora.* Tenga en cuenta las instrucciones sobre cómo proporcionar una licencia legible por una computadora se pueden encontrar xref:license.adoc[aquí].
+2. Soporte para múltiples contactos, creadores, proveedores de metadatos y personal del proyecto
+3. Soporte para userIds para cualquier agente (p. ej. ORCID(Open Researcher and Contributor ID))
+4. Soporte para proporcionar información sobre la frecuencia con la que se realizan cambios en el conjunto de datos
+5. Soporte para proporcionar un identificador de proyecto (por ejemplo, para asociar conjuntos de datos en un proyecto común)
+6. La descripción se puede dividir en párrafos separados versus todos agrupados en uno
+7. Soporte para proporcionar información sobre múltiples colecciones
+
+== Archivos de ejemplo
+
+Puede encontrar un ejemplo de EML que cumple con v1.1 del perfil de metadatos de GBIF https://cloud.gbif.org/griis/eml.do?r=global&v=2.0[aquí]. Tenga en cuenta que este archivo ha sido generado por https://cloud.gbif.org/griis/[GRIIS IPT].
+
+== Anexo
+
+=== Antecedentes del perfil de metadatos de GBIF
+
+Los metadatos, literalmente "datos sobre datos", son un componente esencial de un sistema de gestión de datos, que describen aspectos como "quién, qué, dónde, cuándo y cómo" pertenecientes a un recurso. En el contexto de GBIF, los recursos son conjuntos de datos, definidos libremente como colecciones de datos relacionados, cuya granularidad está determinada por el custodio de datos. Los metadatos pueden ocurrir en varios niveles de integridad. En general, los metadatos deberían permitir que un posible usuario final de los datos:
+
+1. Identificar / descubrir su existencia,
+2. Aprenda a acceder o adquirir los datos,
+3. Comprender su aptitud para el uso y
+4. Aprenda a transferir (obtener una copia de) los datos.
+
+El perfil de metadatos de GBIF (GMP) se desarrolló para estandarizar cómo se describen los recursos a nivel de conjunto de datos en GBIF http://www.gbif.org [Portal de datos]. Este perfil se puede transformar a otros formatos de metadatos comunes como el http://marinemetadata.org/references/iso19139[ISO 19139 ´perfil de metadatos].
+
+En las GMP hay un conjunto mínimo de elementos obligatorios requeridos para la identificación, pero se recomienda que se utilicen tantos elementos como sea posible para garantizar que los metadatos sean lo más descriptivos y completos posible.
+
+== Elementos de los metadatos
+
+El perfil de metadatos de GBIF se basa principalmente en el {eml-location}/index.html [lenguaje de metadatos ecológicos (EML)]. El perfil GBIF utiliza un subconjunto de EML y lo amplía para incluir requisitos adicionales que no se incluyen en la especificación EML. Las siguientes tablas proporcionan descripciones breves de los elementos del perfil y, cuando corresponde, enlaces a descripciones de EML más completas. Los elementos se clasifican de la siguiente manera:
+
+* Conjunto de datos (Recurso)
+* Proyecto
+* Personas y organizaciones
+* Conjunto de palabras clave (palabras clave generales)
+* Cobertura
+** Cobertura Taxonómica
+** Cobertura Geográfica
+** Cobertura Temporal
+* Métodos
+* Derechos de propiedad intelectual
+* Metadatos adicionales + NCD (datos de descripciones de colecciones naturales) relacionados
+
+=== Conjunto de datos (Recurso)
+
+El campo del conjunto de datos tiene elementos relacionados con un único conjunto de datos (recurso).
+
+|===
+| Nombre del término | Descripción
+
+| {eml-location}/eml-resource.html#alternateIdentifier[alternateIdentifier] | Es un Identificador único universal (UUID) para el documento EML y no para el conjunto de datos. Este término es opcional. Se puede proporcionar una lista de diferentes identificadores. Por ejemplo, 619a4b95-1a82-4006-be6a-7dbe3c9b33c5.
+
+| {eml-location}/eml-resource.html#title[title] | Una descripción del recurso que se está documentando que sea lo suficientemente larga para diferenciarlo de otros recursos similares. Se pueden proporcionar varios títulos, particularmente cuando se intenta expresar el título en más de un idioma (use el atributo "xml:lang" para indicar el idioma si no es inglés/en).p ej. Datos de densidad de anfibios de estanque primaveral, Isla Vista, 1990-1996.
+
+| {eml-location}/eml-resource.html#creator[creator] | El creador del recurso es la persona u organización responsable de crear el recurso en sí. Consulte la sección "Personas y organizaciones" para obtener más detalles.
+
+| {eml-location}/eml-resource.html#metadataProvider[metadataProvider] | El proveedor de metadatos es la persona u organización responsable de proporcionar documentación para el recurso. Consulte la sección "Personas y organizaciones" para obtener más detalles.
+
+| {eml-location}/eml-resource.html#associatedParty[AssociatedParty] | Una parte asociada es otra persona u organización que está asociada con el recurso. Estas partes pueden jugar varios roles en la creación o mantenimiento del recurso, y estos roles deben indicarse en el elemento "rol". Consulte la sección "Personas y organizaciones" para obtener más detalles.
+
+| {eml-location}/eml-resource.html#contact[contact] | El campo de contacto contiene información de contacto para este conjunto de datos. Esta es la persona o institución a contactar si tiene preguntas sobre el uso o la interpretación de un conjunto de datos. Consulte la sección "Personas y organizaciones" para obtener más detalles.
+
+| {eml-location}/eml-resource.html#pubDate[pubDate] | La fecha en que se publicó el recurso. El formato debe representarse como: CCYY, que representa un año de 4 dígitos, o CCYY-MM-DD, que denota el año, mes y día completos. Tenga en cuenta que el mes y el día son componentes opcionales. Los formatos deben cumplir con la norma ISO 8601. Por ejemplo, 2010-09-20.
+
+| {eml-location}/eml-resource.html#language[language] | El idioma en el que está escrito el recurso (no el documento de metadatos). Puede ser un nombre de idioma conocido o uno de los códigos de idioma ISO para ser más precisos. La recomendación de GBIF es utilizar el código de idioma ISO (https://api.gbif.org/v1/enumeration/language). Por ejemplo, inglés.
+
+| {eml-location}/eml-resource.html#additionalInfo[additionalInfo] | Información sobre omisiones, instrucciones u otras anotaciones que los administradores de recursos deseen incluir en un conjunto de datos. Básicamente, cualquier información que no esté caracterizada por los otros campos de metadatos de recursos.
+
+| {eml-location}/eml-resource.html#url[url] | La URL del recurso que está disponible en línea.
+
+| {eml-location}/eml-resource.html#abstract[abstract] | Una breve descripción del recurso que se está documentando.
+{eml-location}
+|===
+
+=== Proyecto
+
+El campo del proyecto contiene información sobre el proyecto en el que se recopiló este conjunto de datos. Incluye información como personal del proyecto, financiamiento, área de estudio, diseño del proyecto y proyectos relacionados.
+
+|===
+| Término | Definición
+
+| {eml-location}/eml-project.html#title[título]  | Un título descriptivo del proyecto de investigación p. ej. Diversidad de especies en hábitats ribereños de Tennessee
+
+| {eml-location}/eml-project.html#personnel[personal] | El campo personnel se utiliza para documentar a las personas involucradas en un proyecto de investigación, proporcionando información de contacto y su rol en el proyecto.
+
+| {eml-location}/eml-project.html#funding[financiación] | El campo funding se utiliza para proporcionar información sobre las fuentes de financiamiento del proyecto, tales como: número de subvenciones y contratos; nombres y direcciones de las fuentes de financiamiento.
+
+| {eml-location}/eml-project.html#studyAreaDescription[Descripción del área de estudio] | El campo studyAreaDescription documenta el área física asociada con el proyecto de investigación. Puede incluir descripciones de las coberturas geográfica, temporal y taxonómica de la ubicación de la investigación y descripciones de dominios (temas) de interés como el clima, la geología, los suelos o las perturbaciones.
+
+| {eml-location}/eml-project.html#designDescription[Descripción de diseño] | El campo designDescription  contiene descripciones textuales generales del diseño de la investigación. Puede incluir descripciones detalladas de objetivos, motivaciones, teoría, hipótesis, estrategia, diseño estadístico y actividades reales. También se pueden utilizar citas bibliográficas para describir el diseño de la investigación.
+|===
+
+=== Personas y organizaciones
+
+Hay varios campos que pueden representar tanto a una persona como a una organización. A continuación se muestra una lista de los diversos campos que se utilizan para describir a una persona u organización.
+
+|===
+| Término | Definición
+
+| {eml-location}/eml-party.html#givenName[givenName] | Subcampo del campo individualName. El campo de nombre de pila se puede utilizar para el nombre de la persona asociada con el recurso, o para cualquier otro nombre que no esté destinado a estar alfabetizado (según corresponda). p. ej. Jonny
+
+| {eml-location}/eml-party.html#surName[Apellido] | Subcampo del campo individualName. El campo surName se utiliza para el apellido de la persona asociada con el recurso. Este suele ser el apellido de una persona, por ejemplo, el nombre con el que se hace referencia a él/ella en las citas. P.ej. Carson.
+
+| {eml-location}/eml-party.html#organizationName[Nombre de la organización] | El nombre completo de la organización asociada con el recurso. Este campo está destinado a describir qué institución u organización general está asociada con el recurso que se describe. Por ejemplo, Centro Nacional de Análisis y Síntesis Ecológicos
+
+| {eml-location}/eml-party.html#positionName[Nombre del cargo]| Este campo está destinado a ser utilizado en lugar de una persona en particular o el nombre completo de la organización. Si la persona asociada que tiene el rol cambia con frecuencia, entonces el Nombre del cargo se usaría para mantener la coherencia. Tenga en cuenta que este campo, utilizado junto con 'organizationName' e 'individualName' conforman un único originador lógico. Debido a esto, un originador con solo el individualName de 'Joe Smith' NO es lo mismo que un originador con el nombre de 'Joe Smith' y el  organizationName de 'NSF'. Además, positionName no debe usarse junto con individualName a menos que solo esa persona en esa posición se considere un creador del paquete de datos. Si un positionName se usa en conjunto con un organizationName, eso implica que cualquier persona quien actualmente ocupa dicho positionName en organizationName es el creador del paquete de datos. P. ej., Administrador de datos del herbario HAST
+
+| {eml-location}/eml-party.html#electronicMailAddress[electronicMailAddress] | La electronicMailAddress es la dirección de correo electrónico de la parte responsable. Se pretende que sea una dirección de correo electrónico SMTP de internet, que debe constar de un nombre de usuario seguido del símbolo @, seguido de la dirección del nombre de dominio del servidor de correo electrónico. P.ej. jcuadra@gbif.org
+
+| {eml-location}/eml-party.html#deliveryPoint[Punto de entrega] |Subcampo del campo address que describe la dirección física o electrónica de la parte responsable de un recurso. El campo deliveryPoint se utiliza para la dirección física del contacto postal. Por ejemplo, Secretaría de GBIF, Universitetsparken 15  
+
+| {eml-location}/eml-party.html#role[rol] | Utilice este campo para describir el papel que desempeñó la parte con respecto al recurso. P.ej. técnico, revisor, investigador principal, etc.
+
+| {eml-location}/eml-party.html#phone[teléfono] | El campo phone describe información sobre el teléfono de la parte responsable, ya sea un teléfono de voz o un fax. P.ej. +4530102040
+
+| {eml-location}/eml-party.html#postalCode[Código postal] | Subcampo del campo address que describe la dirección física o electrónica de la parte responsable de un recurso. El código postal es equivalente al U.S. zip code, o al número usado para enrutar a una dirección internacional. P. ej. 52000.
+
+| {eml-location}/eml-party.html#city[ciudad] | Subcampo del campo address que describe la dirección física o electrónica de la parte responsable de un recurso. El campo city se utiliza para el nombre de la ciudad del contacto asociado con un recurso en particular. P.ej. San Diego.
+
+| {eml-location}/eml-party.html#administrativeArea[Área administrativa] | Subcampo del campo address que describe la dirección física o electrónica de la parte responsable de un recurso. El campo administrativeArea es el equivalente a un 'estado' en los EE. UU. O una provincia en Canadá. Este campo está destinado a dar cabida a los muchos tipos de áreas administrativas internacionales. P.ej. Colorado
+
+| {eml-location}/eml-party.html#country[país] | Subcampo del campo address que describe la dirección física o electrónica de la parte responsable de un recurso. El campo de país se utiliza para el nombre del país del contacto. El nombre del país se deriva con mayor frecuencia de la lista de códigos de países ISO 3166. P. ej., Japón.
+
+| {eml-location}/eml-party.html#onlineUrl[enlace Url] | Un enlace a la información en línea asociada, generalmente un sitio web. Cuando la parte responsable representa a una organización, esta es la URL de un sitio web u otra información en línea sobre la organización. Si la parte responsable es un individuo, podría ser su sitio web personal u otra información en línea relacionada. P. ej. https://www.example.edu/botany.
+|===
+
+=== Conjunto de palabras clave (palabras clave generales)
+
+El campo keywordSet es un contenedor para los elementos palabras clave (keyword ) y palabras clave de los tesauros(keywordThesaurus), los cuales se requieren juntos.
+
+|===
+| {eml-location}/eml-resource.html#keyword[palabra clave] | Una palabra clave o frase clave que describe de manera concisa el recurso o está relacionada con el recurso. Cada campo de palabra clave debe contener una y solo una palabra clave (es decir, las palabras clave no deben estar separadas por comas u otros caracteres delimitadores). Por ejemplo, biodiversidad.
+
+| {eml-location}/eml-resource.html#keywordThesaurus[Tesauro de palabras clave]| El nombre del tesauro oficial de palabras clave del que se derivó la palabra clave. Si no existe un nombre de tesauro oficial, mantenga un valor de marcador de posición como "N/A" en lugar de eliminar este elemento, ya que se requiere junto con el elemento de palabra clave para constituir un conjunto de palabras clave. Por ejemplo, tesauro de palabras clave de IRIS.
+|===
+
+=== Cobertura
+
+Describe la extensión de la cobertura del recurso en términos de su extensión * espacial *, extensión * temporal * y extensión * taxonómica *.
+
+=== Cobertura Taxonómica
+
+Contenedor de información taxonómica sobre un recurso. Incluye una lista de nombres de especies (o rangos de nivel superior) de uno o más sistemas de clasificación. Tenga en cuenta que las clasificaciones taxonómicas no deben estar anidadas, solo enumeradas una tras otra.
+
+|===
+| Término                 | Definición
+
+| {eml-location}/eml-coverage.html#generalTaxonomicCoverage[Cobertura taxónomica general] | Cobertura taxonómica es un contenedor de información taxonómica sobre un recurso. Incluye una lista de nombres de especies (o rangos de nivel superior) para uno o más sistemas de clasificación. Una descripción del rango de los taxones abordados en el conjunto de datos o colección. Utilice una lista simple de taxones separados por coma. P. ej.  "Todas las plantas vasculares se identificaron por familia o especie, los musgos y líquenes se identificaron como musgos o líquenes". 
+
+| {eml-location}/eml-coverage.html#taxonomicClassification[Clasificación taxonómica] | Información del rango de los taxones abordados en el conjunto de datos o colección.
+
+| {eml-location}/eml-coverage.html#taxonRankName[Nombre del rango del taxón]| El nombre del rango taxonómico para el taxón proporcionado. Por ejemplo, filo, clase, género, especie.
+
+
+| {eml-location}/eml-coverage.html#taxonRankValue[Valor para el rango taxonómico] | El nombre que representa el rango taxonómico del taxón que se describe. P.ej. Acer sería un ejemplo de un valor para el rango de género y rubrum sería un ejemplo de un valor de rango de especie, indicando juntos el nombre común de arce rojo. Se recomienda comenzar con Reino e incluir rangos inferiores hasta el nivel más detallado posible.
+
+| {eml-location}/eml-coverage.html#commonName[Nombre común]              | Nombres comunes aplicables; estos nombres comunes pueden ser descripciones generales de un grupo de organismos, si esto fuera adecuado. Por ejemplo, invertebrados, aves acuáticas.
+|===
+
+=== Cobertura Geográfica
+
+Un contenedor de información espacial sobre un recurso; permite un cuadro delimitador para la cobertura general (en latitud) y también permite la descripción de polígonos arbitrarios con exclusiones.
+
+|===
+| Termino                | Definición
+
+| {eml-location}/eml-coverage.html#geographicDescription[Descripción geográfica] | Una breve descripción de texto del dominio de área geográfica de un conjunto de datos. Una descripción de texto es especialmente importante para proporcionar un entorno geográfico cuando la extensión del conjunto de datos no puede describirse bien mediante las "coordenadas del límite". Por ejemplo, "Cuenca del río Manistee", "extensión de cuadrículas de 7 1/2 minutos que contienen cualquier propiedad perteneciente al Parque Nacional de Yellowstone".
+
+| {eml-location}/eml-coverage.html#westBoundingCoordinate[Coordenada del límite oeste]| Subcampo del campo de coordenadas delimitadoras que cubre el margen W de un cuadro delimitador. La longitud en grados decimales del punto más occidental del cuadro delimitador que se describe. Por ejemplo, -18,25, +25, 45,24755.
+
+| {eml-location}/eml-coverage.html#eastBoundingCoordinate[Coordenada del límite Este]| Subcampo del campo de coordenadas delimitadoras que cubre el margen E de un cuadro delimitador. La longitud en grados decimales del punto más al este del cuadro delimitador que se describe. P. ej. -18.25, +25, 45.24755.
+
+| {eml-location}/eml-coverage.html#northBoundingCoordinate[Coordenada del límite norte] | Subcampo del campo de coordenadas delimitador que cubre el margen N de un cuadro delimitador. La longitud en grados decimales del punto más al norte del cuadro delimitador que se describe. P. ej. -18,25, +25, 65,24755.
+
+| {eml-location}/eml-coverage.html#southBoundingCoordinate[Coordenada del límite sur] | Subcampo del campo de coordenadas delimitador que cubre el margen S de un cuadro delimitador. La longitud en grados decimales del punto más al sur del cuadro delimitador que se describe. P. ej. -118.25, +25, 84.24755.
+|===
+
+=== Cobertura Temporal
+
+Este contenedor permite que la cobertura sea un solo punto en el tiempo, múltiples puntos en el tiempo o un rango de fechas.
+
+|===
+| Term       | Definition
+
+| {eml-location}/eml-coverage.html#beginDate[beginDate] | Subfield of rangeOfDates field: It may be used multiple times with a endDate field to document multiple date ranges.   A single time stamp signifying the beginning of some time period. The calendar date field is used to express a date, giving the year, month, and day. The format should be one that complies with the International Standards Organization's standard 8601. The recommended format for EML is YYYY-MM-DD, where Y is the four digit year, M is the two digit month code (01 - 12, where January = 01), and D is the two digit day of the month (01 - 31). This field can also be used to enter just the year portion of a date.  E.g. 2010-09-20
+
+| {eml-location}/eml-coverage.html#endDate[endDate]| Subfield of rangeOfDates field: It may be used multiple times with a beginDate field to document multiple date ranges.  A single time stamp signifying the end of some time period. The calendar date field is used to express a date, giving the year, month, and day. The format should be one that complies with the International Standards Organization's standard 8601. The recommended format for EML is YYYY-MM-DD, where Y is the four digit year, M is the two digit month code (01 - 12, where January = 01), and D is the two digit day of the month (01 - 31). This field can also be used to enter just the year portion of a date. E.g. 2010-09-20.
+
+| {eml-location}/eml-coverage.html#singleDateTime[singleDateTime] | The SingleDateTime field is intended to describe a single date and time for an event.
+|===
+
+=== Métodos
+
+Este campo documenta los métodos científicos utilizados en la recopilación del recurso. Incluye información sobre elementos como herramientas, calibración de instrumentos y software.
+
+|===
+| Term            | Definition
+
+| {eml-location}/eml-methods.html#methodStep[methodStep] | The methodStep field allows for repeated sets of elements that document a series of procedures followed to produce a data object. These include text descriptions of the procedures, relevant literature, software, instrumentation, source data and any quality control measures taken.
+
+| {eml-location}/eml-methods.html#qualityControl[qualityControl] | The qualityControl field provides a location for the description of actions taken to either control or assess the quality of data resulting from the associated method step.
+
+| {eml-location}/eml-methods.html#sampling[sampling]  | Description of sampling procedures including the geographic, temporal and taxonomic coverage of the study.
+
+| {eml-location}/eml-methods.html#studyExtent[studyExtent] | Subfield of the sampling field. The coverage field allows for a textual description of the specific sampling area, the sampling frequency (temporal boundaries, frequency of occurrence), and groups of living organisms sampled (taxonomic coverage). The field studyExtent represents both a specific sampling area and the sampling frequency (temporal boundaries, frequency of occurrence). The geographic studyExtent is usually a surrogate (representative area of) for the larger area documented in the "studyAreaDescription".
+
+| {eml-location}/eml-methods.html#samplingDescription[samplingDescription] | Subfield of the sampling field. The samplingDescription field allows for a text-based/human readable description of the sampling procedures used in the research project. The content of this element would be similar to a description of sampling procedures found in the methods section of a journal article.
+|===
+
+=== Derechos de propiedad intelectual
+
+Contener una declaración de gestión de derechos para el recurso o una referencia a un servicio que proporciona dicha información.
+
+|===
+| Term           | Definition
+
+| {eml-location}/eml-dataset.html#purpose[purpose] | A description of the purpose of this dataset.
+
+| {eml-location}/eml-resource.html#intellectualRights[intellectualRights] | A rights management statement for the resource, or reference a service providing such information. Rights information encompasses Intellectual Property Rights (IPR), Copyright, and various Property Rights. In the case of a data set, rights might include requirements for use, requirements for attribution, or other requirements the owner would like to impose. E.g., © 2001 Regents of the University of California Santa Barbara. Free for use by all individuals provided that the owners are acknowledged in any use or publication.
+|===
+
+=== Metadatos adicionales relacionados + http://www.tdwg.org/activities/ncd/[Datos de descripción de colecciones naturales (NCD)]
+
+El campo additionalMetadata es un contenedor para cualquier otro metadato relevante que pertenezca al recurso que se describe. Este campo permite que EML sea extensible ya que cualquier metadato basado en XML puede incluirse en este elemento. Los elementos proporcionados aquí en las GMP incluyen aquellos requeridos para la conformidad con ISO 19139 y un subconjunto de elementos NCD (Descripciones de Colecciones Naturales).
+
+|===
+| Term                   | Definition
+
+| dateStamp | The dateTime the metadata document was created or modified. E.g., 2002-10-23T18:13:51.235+01:00
+
+| metadataLanguage | The language in which the metadata document (as opposed to the resource being described by the metadata) is written. Composed of an ISO639-2/T three-letter language code and an ISO3166-1 three-letter country code. E.g., en_GB
+
+| hierarchyLevel | Dataset level to which the metadata applies; default value is “dataset” E.g., dataset
+
+| {eml-location}/eml-literature.html#citation[citation] | The citation for the work itself. See {eml-location}/eml-literature.html#citation[eml]
+
+| bibliography | A list of citations (see below) that form a bibliography on literature related / used in the dataset
+
+| physical | A container element for all of the elements that let you describe the internal/external characteristics and distribution of a data object (e.g., dataObject, dataFormat, distribution). Can repeat.
+
+| resourceLogoUrl | URL of the logo associated with a resource. E.g., http://www.gbif.org/logo.jpg
+
+| parentCollectionIdentifier | Subfield of collection field. Is an optional field. Identifier for the parent collection for this sub-collection. Enables a hierarchy of collections and sub collections to be built.
+
+| collectionName | Subfield of collection field. Is an optional field. Official name of the Collection in the local language.
+
+| collectionIdentifier | Subfield of collection field.  Is an optional field. The URI (LSID or URL) of the collection. In RDF, used as URI of the collection resource.
+
+| formationPeriod | Text description of the time period during which the collection was assembled. E.g., "Victorian", or "1922 - 1932", or "c. 1750".
+
+| livingTimePeriod | Time period during which biological material was alive (for palaeontological collections).
+
+| specimenPreservationMethod | Picklist keyword indicating the process or technique used to prevent physical deterioration of non-living collections. Expected to contain an instance from the Specimen Preservation Method Type Term vocabulary.   E.g., formaldehyde.
+
+| jgtiCuratorialUnit
+a| A quantitative descriptor (number of specimens, samples or batches). The actual quantification could be covered by
+
+. un número exacto de "unidades JGI" en la colección más una medida de incertidumbre (± x);
+. un rango de números (x a x), donde el valor más bajo representa un número exacto, cuando se omite el valor más alto.
+  
+El debate concluyó que la cuantificación debería abarcar todos los especímenes, no solo los que aún no se han digitalizado. Esto es para evitar tener que actualizar los números con demasiada frecuencia. El número de datos no públicos (no digitalizados o no accesibles) se puede calcular a partir de los números de GBIF en lugar de los datos de JGTI.
+|===

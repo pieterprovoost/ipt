@@ -1,0 +1,51 @@
+= Datos del Listado Taxonómico
+
+Recursos que comprenden una lista de especies perteneciente a alguna categoría (ej.: taxonómica, geográfica, basada en riesgo, listas rojas, variedades silvestres de cultivo) y opcionalmente con una mayor clasificación y/o rasgos adicionales asociados con cada especie. Algunos ejemplos de estos conjuntos de datos incluyen listados taxonómicos de especies regional o global, listas rojas nacionales o internacionales, catálogos de especies incluidos en colecciones sin digitalizar, listado de especies de parques, etc. Si existe suficiente información en la fuente del conjunto de datos (o aplica de manera consistente a todas las especies de la lista de especies), se recomienda que estos conjuntos de datos se presenten como xref:occurrence-data.adoc[Datos de Presencia]. Estos conjuntos de datos incluyen la misma información descriptiva básica incluida en los xref:resource-metadata.adoc[Recursos de metadatos].
+
+== Cómo transformar sus datos en datos de listas de especies
+
+image::ipt2/flow-cd.png[]
+
+Finalmente, sus datos deben ser transformados a una estructura de tabla utilizando nombres de términos Darwin Core (DwC) como nombres de las columnas.
+
+Intente poner sus datos en el <<Modelos,modelo Excel>>, que incluye todos los <<Campos DwC requeridos,campos DwC requridos>> y los <<Campos DwC recomendados,campos DwC recomendados>>.
+
+De manera alternativa, si sus datos están en una xref:database-connection.adoc[base de datos compatible], puede elaborar una tabla SQL (ver) utilizando nombres de columnas DwC. Sea cuidadoso para incluir todos los <<Required DwC Fields,required DwC fields>> y añada tantos <<Recommended DwC Fields,recommended DwC fields>> como sea posible.
+
+Si necesita ayuda adicional, diríjase a la guía xref:best-practices-checklists.adoc[Buenas Prácticas en la Publicación de Listados de Especies] y eche un vistazo a los <<Conjuntos de datos ejemplares,conjuntos de datos ejemplares>>.
+
+=== Modelos
+
+link:{attachmentsdir}/downloads/checklist_ipt_template_v1.xlsx[image:ipt2/excel-template2.png[Modelo de Excel]] link:{attachmentsdir}/downloads/checklist_ipt_template_v1_example_data.xlsx[image:ipt2/excel-template-data2.png[Modelo de Excel (con datos de ejemplo)]
+
+Rellénelo y súbalo al IPT. Intente ampliarlo con tantos http://rs.tdwg.org/dwc/terms/[términos DwC] como pueda. Puede ampliar su tabla central con columnas DwC extras pero solo con términos DwC de esta {latest-dwc-taxon}.xml[list].
+
+=== Campos DwC requeridos
+
+* http://rs.tdwg.org/dwc/terms/#taxonID[taxonID]
+* http://rs.tdwg.org/dwc/terms/#scientificName[scientificName]
+* http://rs.tdwg.org/dwc/terms/#taxonRank[taxonRank]
+
+=== Campos DwC recomendados
+
+* http://rs.tdwg.org/dwc/terms/#kingdom[kingdom] - y otros niveles taxonómicos mayores si es posible
+* http://rs.tdwg.org/dwc/terms/#parentNameUsageID[parentNameUsageID] - en situaciones en las que se pretende publicar una taxonomía
+* http://rs.tdwg.org/dwc/terms/#acceptedNameUsageID[acceptedNameUsageID] - en situaciones en las que se pretende publicar una taxonomía
+
+=== Conjuntos de datos ejemplares
+
+* Base de datos de Plantas Vasculares de Canadá (VASCAN): http://data.canadensys.net/ipt/archive.do?r=vascan[DwC-A] / http://data.canadensys.net/ipt/resource.do?r=vascan[portada del IPT]
+
+=== Preguntas frecuentes
+
+==== P. *¿Cómo añado nombres comunes al registro de un taxón?*
+
+*R.* Elabora una tabla de nombres comunes. La tabla debe incluir una columna taxonID. De esa forma, cada fila puede vincularse al registro (principal) del taxón. Puede ampliar su tabla de nombres comunes con columnas adicionales pero solo utilizando nombres de términos de esta {latest-vernacularname}[list]. Puede subir esta tabla al IPT y llevarla a la {latest-vernacularname}[extensión de Nombres Vernáculos].
+
+==== P. *¿Cómo añado el estado de amenaza de una esecie tal como define la UICN?*
+
+*R.* Elabore una tabla de distribuciones geográficas para un taxón. La tabla debe incluir una columna taxonID. De esa forma, cada fila puede vincularse al registro (principal) del taxón. Puede ampliar su tabla de distribuciones geográficas con columnas adicionales como el estado de amenaza pero solo utilizando nombres de términos de esta {latest-species-distribution}[list]. Puede subir esta tabla al IPT y llevarla a la {latest-vernacularname}[extensión de Distribución de Especies].
+
+==== P. *¿Puedo subir la https://doi.org/10.15468/39omei[Taxonomía del Backbone de GBIF] con nombres de mi listado de especies?*
+
+*R.* Sí. Para hacerlo, debe publicar su listado de especies, hacerlo público de manera online bajo una licencia permitida por GBIF (CC0, CC-BY, CC-BY-NC) y registrarlo con GBIF. Entonces, GBIF lo revisará manualmente para determinar si es un recurso apropiado para el backbone, ej.: comprobando como sus nombres se solapan con el backbone. Lo ideal es que el listado de especies proporcione al menos una clasificación mínima como un http://rs.tdwg.org/dwc/terms/#kingdom[kingdom] y una http://rs.tdwg.org/dwc/terms/#family[family] tenga datos de alta calidad, es decir, que presente pocas incidencias en el uso de nombres, incluya http://rs.tdwg.org/dwc/terms/#scientificNameAuthorship[scientificNameAuthorship] para los nombres, proporcionando la referencia del http://rs.tdwg.org/dwc/terms/#namePublishedIn[namePublishedIn], etc.

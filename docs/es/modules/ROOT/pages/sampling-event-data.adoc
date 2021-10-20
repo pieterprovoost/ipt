@@ -1,0 +1,83 @@
+= Datos de Eventos de Muestreo
+
+== Introducción
+
+Recursos que muestran no solo la evidencia de la presencia de una especie en un lugar y momento particular, sino también suficiente detalle para evaluar la composición de las comunidades para un grupo taxonómico más amplio o la abundancia relativa de especies en múltiples momentos y lugares. Tales conjuntos de datos derivan de protocolos estandarizados para medir y observar la biodiversidad. Algunos ejemplos incluyen los transectos de vegetación, los datos estandarizados de censos de aves, muestras eco-genómicas, etc. Indicando que protocolo se siguió, estos conjuntos de datos añaden a los de Presencia de Especies información sobre qué registro de presencia deriva de un evento de muestro siguiendo el protocolo e, idealmente, la abundancia relativa (mediante una medida numérica apropiada) de las especies registradas en la muestra. Estos elementos adicionales pueden soportar mejores comparaciones de los datos de diferentes momentos y lugares (donde se indique el mismo protocolo) y, en algunos casos, puede permitir a los investigadores inferir ausencias de especies particulares de lugares particulares. Estos conjuntos de datos incluyen la misma información descriptiva básica de los xref:resource-metadata.adoc[metadatos de Recursos] y los mismos elementos estándar de xref:occurrence-data.adoc[Datos de Presencia de Especies].
+
+== How to transform your data into sampling event data
+
+image::ipt2/flow-sed.png[]
+
+Ultimately your data needs to be transformed into two tables using Darwin Core (DwC) term names as column names: one table of sampling events and another table of species occurrences derived from (associated to) each sampling event.
+
+Try putting your data into the <<Templates,Excel template>>, which includes two sheets: one for sampling events and another for associated species occurrences.
+
+Alternatively if your data is stored in a xref:database-connection.adoc[supported database], you can write two SQL tables (views) using DwC column names: one for sampling events and another for associated species occurrences.
+
+Each sampling event record should include all <<Required DwC Fields,required DwC fields>> and as many <<Recommended DwC Fields,recommended DwC fields>> as possible. You can augment your table with extra DwC columns, but only DwC terms from this {latest-dwc-event}.xml[list].
+
+Similarly each species occurrence record should include all xref:occurrence-data.adoc#required-dwc-fields[required DwC fields] and as many xref:occurrence-data.adoc#recommended-dwc-fields[recommended DwC fields] as possible. You can augment your table with extra DwC columns, but only DwC terms from this {latest-dwc-occurrence}.xml[list]. Some DwC terms will be redundant meaning they are added to both sampling event and species occurrence records. As a general rule, try not to add redundant terms with the same values. It is fine if they have different values though, for example if you wanted to define a location of an event and then define more specific locations for individual occurrences. Otherwise when the location of individual occurrences isn't supplied, its location gets inherited from the event.
+
+For extra guidance, you can refer to the guide xref:best-practices-sampling-event-data.adoc[Best Practices in Publishing Sampling-event data] and look at the <<Templates,template populated with example data>> or the list of <<Exemplar datasets,exemplar datasets>>.
+
+=== Modelos
+
+link:{attachmentsdir}/downloads/event_ipt_template_v2.xlsx[image:ipt2/excel-template2.png[Excel Template]] link:{attachmentsdir}/downloads/event_ipt_template_v2_example_data.xlsx[image:ipt2/excel-template-data2.png[Excel Template (with example data)]]
+
+Populate it and upload it to the IPT.
+
+=== Campos DwC requeridos
+
+* http://rs.tdwg.org/dwc/terms/#eventID[eventID] - also required for associated occurrence data (to link them together)
+* http://rs.tdwg.org/dwc/terms/#eventDate[eventDate]
+* http://rs.tdwg.org/dwc/terms/#samplingProtocol[samplingProtocol]
+
+=== Campos DwC recomendados
+
+* http://rs.tdwg.org/dwc/terms/#sampleSizeValue[sampleSizeValue] & http://rs.tdwg.org/dwc/terms/#sampleSizeUnit[sampleSizeUnit]
+* http://rs.tdwg.org/dwc/terms/#parentEventID[parentEventID] - in situations where the event is part of an event series
+* http://rs.tdwg.org/dwc/terms/#samplingEffort[samplingEffort] - to provide evidence of rigour of sampling event
+* http://rs.tdwg.org/dwc/terms/#locationID[locationID] - in situations where the plot/transect being sampled has a unique identifier
+* http://rs.tdwg.org/dwc/terms/#decimalLatitude[decimalLatitude] & http://rs.tdwg.org/dwc/terms/#decimalLongitude[decimalLongitude] & http://rs.tdwg.org/dwc/terms/#geodeticDatum[geodeticDatum] - para proporcionar una localización por puntos específica
+* http://rs.tdwg.org/dwc/terms/#footprintWKT[footprintWKT] & http://rs.tdwg.org/dwc/terms/#footprintSRS[footprintSRS] - to provide a specific shape location
+* http://rs.tdwg.org/dwc/terms/#countryCode[countryCode]
+* http://rs.tdwg.org/dwc/terms/#occurrenceStatus[occurrenceStatus] - only for associated occurrence data to record presence/absence data.
+
+=== Conjuntos de datos ejemplares
+
+* Israeli Butterfly Monitoring Scheme (BMS-IL): http://cloud.gbif.org/eubon/archive.do?r=butterflies-monitoring-scheme-il[DwC-A] / http://cloud.gbif.org/eubon/resource?r=butterflies-monitoring-scheme-il[IPT homepage]
+* Dutch Vegetation Database (LVD): http://cloud.gbif.org/eubon/archive.do?r=lvd[DwC-A] / http://cloud.gbif.org/eubon/resource?r=lvd[IPT homepage]
+* Reef Life Survey: Global reef fish dataset: http://ipt.ala.org.au/archive.do?r=global[DwC-A] / http://ipt.ala.org.au/resource?r=global[IPT homepage]
+* Lepidurus arcticus survey Northeast Greenland 2013: http://gbif.vm.ntnu.no/ipt/archive.do?r=lepidurus-arcticus-survey_northeast-greenland_2013[DwC-A] / http://gbif.vm.ntnu.no/ipt/resource?r=lepidurus-arcticus-survey_northeast-greenland_2013[IPT homepage]
+* Insects from light trap (1992–2009), rooftop Zoological Museum, Copenhagen: http://danbif.au.dk/ipt/archive.do?r=rooftop&v=1.4[DwC-A] / http://danbif.au.dk/ipt/resource?r=rooftop[IPT homepage]
+
+=== Preguntas frecuentes
+
+==== Q. How do I indicate that a sampling event was part of a time series?
+
+*A.* All sampling events at the same location must share the same http://rs.tdwg.org/dwc/terms/#locationID[locationID].
+
+==== Q. How do I publish a hierarchy of events (recursive data type) using parentEventID?
+
+*A.* The classic example is sub-sampling of a larger plot. To group all (child) sub-sampling events under the (parent) sampling event, the parentEventID of all sub-sampling events must be set to the eventID of the (parent) sampling event. To be valid, all parentEventIDs must reference eventIDs of records defined in the same dataset. Otherwise, the parentEventID must be globally unique identifier (e.g. DOI, HTTP URI, etc) that resolves to an event record described elsewhere. Ideally, all (child) sub-sampling events share the same date and location as the (parent) event it references.
+
+==== Q. How do I publish absence data?
+
+*A.* *Step 1*: Include sampling event records even if the sampling yielded no derived species occurrences. This allows species absences to be inferred. This http://gbif.vm.ntnu.no/ipt/resource?r=lepidurus-arcticus-survey_northeast-greenland_2013[example sampling event dataset from Norway] demonstrates how this looks.
+
+Alternatively, you can make species absences explicit by adding a species occurrence record for each species that could have been observed at the time and place of sampling, but was not observed, by setting the following fields:
+
+Mandatory:
+
+* http://rs.tdwg.org/dwc/terms/#occurrenceStatus[occurrenceStatus]=link:{latest-occurrence-status}.xml["absent"]
+
+Optional (provide one or both):
+
+* http://rs.tdwg.org/dwc/terms/#individualCount[individualCount]="0"
+* http://rs.tdwg.org/dwc/terms/#organismQuantity[organismQuantity] & http://rs.tdwg.org/dwc/terms/#organismQuantityType[organismQuantityType] pair. "e.g. 0 individuals"
+
+*Step 2*: Define the taxonomic scope of all sampling events included in the dataset, it is recommended to publish a timestamped checklist together with the sampling event dataset, which represents the species composition that could be observed at the time and place of sampling given the sampling protocol (and/or the taxonomic coverage of the study and the expertise of the personnel carrying out identification). This would allow for accurate presence/absence data being recorded. In addition to the normal (expected) species composition, the checklist could include invasive (unexpected) species. For taxonomic and biogeographical/ecological reasons, however, this checklist would exist solely within the context of the sampling event dataset.
+
+Instructions how to create a checklist can be found xref:checklist-data.adoc[here]. Detailed metadata should be included with the checklist describing a) the people who performed the identifications and their taxonomic expertise and b) how it was decided that these species were detectable & identifiable at the time and place of sampling.
+
+To link the checklist to the sampling event dataset, add the checklist to the dataset metadata in the xref:manage-resources.adoc#external-links[External links] section.
